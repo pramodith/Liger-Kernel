@@ -10,7 +10,9 @@ from liger_kernel.ops.layer_norm import LigerLayerNormFunction
 from liger_kernel.ops.rms_norm import LigerRMSNormFunction
 from liger_kernel.ops.rope import LigerRopeFunction
 from liger_kernel.ops.swiglu import LigerSiLUMulFunction
+from liger_kernel.ops.batch_norm import LigerBatchNormFunction
 
+liger_batch_norm = LigerBatchNormFunction.apply
 liger_swiglu = LigerSiLUMulFunction.apply
 liger_cross_entropy = LigerCrossEntropyFunction.apply
 liger_fused_linear_cross_entropy = LigerFusedLinearCrossEntropyFunction.apply
