@@ -17,13 +17,16 @@ class LigerBatchNorm(nn.Module):
         )
         self.variance_epsilon = eps
         self.momentum = momentum
-        self.running_mean = torch.zeros(num_features)
-        self.running_var = torch.ones(num_features)
+        self.running_mean = torch.zeros(num_features, requires_grad=False)
+        self.running_var = torch.ones(num_features, requires_grad=False)
 
     def forward(self, hidden_states):
-        return LigerBatchNormFunction.apply(
-            hidden_states, self.weight, self.bias, self.variance_epsilon, self.momentum, self.running_mean, self.running_var
+        output, running_mean, running_var = LigerBatchNormFunction.apply(
+            hidden_states, self.weight, self.bias,  self.running_mean, self.running_var, self.variance_epsilon, self.momentum
         )
+        self.running_mean = running_mean
+        self.running_var = running_var
+        return output
 
     def extra_repr(self):
         return f"{self.num_features}, eps={self.eps}, momentum={self.momentum}"
